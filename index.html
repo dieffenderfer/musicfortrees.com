@@ -29,7 +29,7 @@
         }
         .letter {
             display: inline-block;
-            transition: color 1s ease;
+            /* Remove transition for instant color change */
         }
         .space {
             display: inline-block;
@@ -71,6 +71,16 @@
                 '#FFFFFF'  // white
             ];
             
+            // Function to get a random color
+            function getRandomColor() {
+                return colors[Math.floor(Math.random() * colors.length)];
+            }
+            
+            // Function to get a random time interval between min and max seconds
+            function getRandomInterval(min, max) {
+                return (Math.random() * (max - min) + min) * 1000;
+            }
+            
             // Create colored letters for the title with spaces between words
             titleWords.forEach((word, wordIndex) => {
                 // Add each letter of the word
@@ -80,8 +90,18 @@
                     letter.textContent = word[i];
                     
                     // Random color for each letter
-                    const color = colors[Math.floor(Math.random() * colors.length)];
-                    letter.style.color = color;
+                    letter.style.color = getRandomColor();
+                    
+                    // Set up individual timer for this letter
+                    function changeLetterColor() {
+                        letter.style.color = getRandomColor();
+                        
+                        // Schedule next color change with a random interval
+                        setTimeout(changeLetterColor, getRandomInterval(1, 5));
+                    }
+                    
+                    // Start the color change timer with a random initial delay
+                    setTimeout(changeLetterColor, getRandomInterval(0, 3));
                     
                     title.appendChild(letter);
                 }
@@ -105,7 +125,7 @@
                 const y = Math.random() * height;
                 
                 // Random color
-                const color = colors[Math.floor(Math.random() * colors.length)];
+                const color = getRandomColor();
                 
                 light.style.left = x + 'px';
                 light.style.top = y + 'px';
@@ -134,23 +154,8 @@
                 setTimeout(animateLights, 1000 + Math.random() * 1000);
             }
             
-            // Function to randomize letter colors
-            function randomizeLetterColors() {
-                const letters = document.querySelectorAll('.letter');
-                
-                letters.forEach(letter => {
-                    // Random color for each letter
-                    const color = colors[Math.floor(Math.random() * colors.length)];
-                    letter.style.color = color;
-                });
-                
-                // Schedule next color change (between 3000ms and 5000ms)
-                setTimeout(randomizeLetterColors, 3000 + Math.random() * 2000);
-            }
-            
             // Start animations
             animateLights();
-            randomizeLetterColors();
             
             // Update lights positions on window resize
             window.addEventListener('resize', function() {
