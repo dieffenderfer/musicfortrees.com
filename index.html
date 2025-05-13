@@ -29,6 +29,11 @@
         }
         .letter {
             display: inline-block;
+            transition: color 1s ease;
+        }
+        .space {
+            display: inline-block;
+            width: 0.5em;
         }
         .light {
             position: absolute;
@@ -51,7 +56,7 @@
             const title = document.getElementById('title');
             const width = window.innerWidth;
             const height = window.innerHeight;
-            const titleText = "Music For Trees";
+            const titleWords = ["Music", "For", "Trees"];
             
             // Define possible colors for letters and lights
             const colors = [
@@ -66,18 +71,29 @@
                 '#FFFFFF'  // white
             ];
             
-            // Create colored letters for the title
-            for (let i = 0; i < titleText.length; i++) {
-                const letter = document.createElement('span');
-                letter.className = 'letter';
-                letter.textContent = titleText[i];
+            // Create colored letters for the title with spaces between words
+            titleWords.forEach((word, wordIndex) => {
+                // Add each letter of the word
+                for (let i = 0; i < word.length; i++) {
+                    const letter = document.createElement('span');
+                    letter.className = 'letter';
+                    letter.textContent = word[i];
+                    
+                    // Random color for each letter
+                    const color = colors[Math.floor(Math.random() * colors.length)];
+                    letter.style.color = color;
+                    
+                    title.appendChild(letter);
+                }
                 
-                // Random color for each letter
-                const color = colors[Math.floor(Math.random() * colors.length)];
-                letter.style.color = color;
-                
-                title.appendChild(letter);
-            }
+                // Add space after each word except the last one
+                if (wordIndex < titleWords.length - 1) {
+                    const space = document.createElement('span');
+                    space.className = 'space';
+                    space.innerHTML = '&nbsp;';
+                    title.appendChild(space);
+                }
+            });
             
             // Create 75 lights distributed across the whole screen
             for (let i = 0; i < 75; i++) {
@@ -118,8 +134,23 @@
                 setTimeout(animateLights, 1000 + Math.random() * 1000);
             }
             
-            // Start animation
+            // Function to randomize letter colors
+            function randomizeLetterColors() {
+                const letters = document.querySelectorAll('.letter');
+                
+                letters.forEach(letter => {
+                    // Random color for each letter
+                    const color = colors[Math.floor(Math.random() * colors.length)];
+                    letter.style.color = color;
+                });
+                
+                // Schedule next color change (between 3000ms and 5000ms)
+                setTimeout(randomizeLetterColors, 3000 + Math.random() * 2000);
+            }
+            
+            // Start animations
             animateLights();
+            randomizeLetterColors();
             
             // Update lights positions on window resize
             window.addEventListener('resize', function() {
