@@ -24,15 +24,25 @@
             line-height: 1.2;
             color: #4CAF50;
             margin-bottom: 20px;
+            position: relative;
         }
         h1 {
             font-size: 2.5rem;
             margin-top: 20px;
         }
+        .light {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: red;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
     </style>
 </head>
 <body>
-    <div class="ascii-tree">
+    <div class="ascii-tree" id="tree">
           *
          ***
         *****
@@ -45,5 +55,54 @@
          |||
     </div>
     <h1>Music For Trees</h1>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const tree = document.getElementById('tree');
+            const treeRect = tree.getBoundingClientRect();
+            
+            // Define possible light colors
+            const colors = ['red', 'blue', 'yellow', 'purple', 'cyan', 'orange', 'pink', 'white'];
+            
+            // Create 20 lights
+            for (let i = 0; i < 20; i++) {
+                const light = document.createElement('div');
+                light.className = 'light';
+                
+                // Random position within the tree area (avoiding the trunk)
+                const x = Math.random() * (treeRect.width * 0.8) + (treeRect.width * 0.1);
+                const y = Math.random() * (treeRect.height * 0.7);
+                
+                // Random color
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                
+                light.style.left = x + 'px';
+                light.style.top = y + 'px';
+                light.style.backgroundColor = color;
+                
+                tree.appendChild(light);
+            }
+            
+            // Function to animate lights
+            function animateLights() {
+                const lights = document.querySelectorAll('.light');
+                
+                // Randomly turn lights on and off
+                lights.forEach(light => {
+                    if (Math.random() > 0.7) {
+                        light.style.opacity = Math.random() * 0.7 + 0.3; // Random brightness
+                    } else {
+                        light.style.opacity = 0;
+                    }
+                });
+                
+                // Schedule next animation
+                setTimeout(animateLights, 1000 + Math.random() * 1000);
+            }
+            
+            // Start animation
+            animateLights();
+        });
+    </script>
 </body>
 </html>
