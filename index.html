@@ -103,10 +103,10 @@
                 return (Math.random() * (max - min) + min) * 1000;
             }
             
-            // Function to randomize letter case
+            // Function to randomize letter case - making capital letters very rare
             function randomizeCase(letter) {
-                // 50% chance of uppercase, 50% chance of lowercase
-                return Math.random() > 0.5 ? letter.toUpperCase() : letter.toLowerCase();
+                // Only 5% chance of uppercase, 95% chance of lowercase
+                return Math.random() > 0.95 ? letter.toUpperCase() : letter.toLowerCase();
             }
             
             // Create colored letters for the title with spaces between words
