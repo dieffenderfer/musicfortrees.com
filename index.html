@@ -56,7 +56,7 @@
             const title = document.getElementById('title');
             const width = window.innerWidth;
             const height = window.innerHeight;
-            const titleWords = ["music", "for", "trees"]; // All lowercase
+            const titleWords = ["music", "for", "trees"]; // Words are lowercase initially, but capitalization will be randomized
             
             // Flag to control whether lights are enabled
             const lightsEnabled = false; // Set to false to turn off the lights
@@ -103,13 +103,20 @@
                 return (Math.random() * (max - min) + min) * 1000;
             }
             
+            // Function to randomize letter case
+            function randomizeCase(letter) {
+                // 50% chance of uppercase, 50% chance of lowercase
+                return Math.random() > 0.5 ? letter.toUpperCase() : letter.toLowerCase();
+            }
+            
             // Create colored letters for the title with spaces between words
             titleWords.forEach((word, wordIndex) => {
                 // Add each letter of the word
                 for (let i = 0; i < word.length; i++) {
                     const letter = document.createElement('span');
                     letter.className = 'letter';
-                    letter.textContent = word[i];
+                    // Randomize case for initial display
+                    letter.textContent = randomizeCase(word[i]);
                     
                     // Random color and font for each letter
                     letter.style.color = getRandomColor();
@@ -117,6 +124,8 @@
                     
                     // Set up individual timer for this letter
                     function changeLetterStyle() {
+                        // Randomize case, color, and font
+                        letter.textContent = randomizeCase(letter.textContent);
                         letter.style.color = getRandomColor();
                         letter.style.fontFamily = getRandomFont();
                         
