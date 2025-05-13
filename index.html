@@ -41,7 +41,7 @@
             height: 8px;
             border-radius: 50%;
             background-color: red;
-            opacity: 0;
+            opacity: 0; /* Lights are off by default */
             transition: opacity 1s ease-in-out;
             box-shadow: 0 0 5px 2px currentColor;
         }
@@ -57,6 +57,9 @@
             const width = window.innerWidth;
             const height = window.innerHeight;
             const titleWords = ["music", "for", "trees"]; // All lowercase
+            
+            // Flag to control whether lights are enabled
+            const lightsEnabled = false; // Set to false to turn off the lights
             
             // Define possible colors for letters and lights
             const colors = [
@@ -137,6 +140,7 @@
             });
             
             // Create 75 lights distributed across the whole screen
+            // Still create them but they will remain invisible if lightsEnabled is false
             for (let i = 0; i < 75; i++) {
                 const light = document.createElement('div');
                 light.className = 'light';
@@ -158,18 +162,21 @@
             
             // Function to animate lights
             function animateLights() {
-                const lights = document.querySelectorAll('.light');
-                
-                // Randomly turn lights on and off
-                lights.forEach(light => {
-                    // 30% chance of changing state on each cycle
-                    if (Math.random() > 0.7) {
-                        const brightness = Math.random() * 0.7 + 0.3; // Random brightness
-                        light.style.opacity = brightness;
-                    } else {
-                        light.style.opacity = 0;
-                    }
-                });
+                // Only animate if lights are enabled
+                if (lightsEnabled) {
+                    const lights = document.querySelectorAll('.light');
+                    
+                    // Randomly turn lights on and off
+                    lights.forEach(light => {
+                        // 30% chance of changing state on each cycle
+                        if (Math.random() > 0.7) {
+                            const brightness = Math.random() * 0.7 + 0.3; // Random brightness
+                            light.style.opacity = brightness;
+                        } else {
+                            light.style.opacity = 0;
+                        }
+                    });
+                }
                 
                 // Schedule next animation (between 1000ms and 2000ms)
                 setTimeout(animateLights, 1000 + Math.random() * 1000);
@@ -180,16 +187,18 @@
             
             // Update lights positions on window resize
             window.addEventListener('resize', function() {
-                const width = window.innerWidth;
-                const height = window.innerHeight;
-                const lights = document.querySelectorAll('.light');
-                
-                lights.forEach(light => {
-                    const x = Math.random() * width;
-                    const y = Math.random() * height;
-                    light.style.left = x + 'px';
-                    light.style.top = y + 'px';
-                });
+                if (lightsEnabled) {
+                    const width = window.innerWidth;
+                    const height = window.innerHeight;
+                    const lights = document.querySelectorAll('.light');
+                    
+                    lights.forEach(light => {
+                        const x = Math.random() * width;
+                        const y = Math.random() * height;
+                        light.style.left = x + 'px';
+                        light.style.top = y + 'px';
+                    });
+                }
             });
         });
     </script>
