@@ -27,6 +27,9 @@
             letter-spacing: 2px;
             font-weight: normal;
         }
+        .letter {
+            display: inline-block;
+        }
         .light {
             position: absolute;
             width: 8px;
@@ -40,16 +43,41 @@
     </style>
 </head>
 <body id="starfield">
-    <h1>Music For Trees</h1>
+    <h1 id="title"></h1>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const starfield = document.getElementById('starfield');
+            const title = document.getElementById('title');
             const width = window.innerWidth;
             const height = window.innerHeight;
+            const titleText = "Music For Trees";
             
-            // Define possible light colors
-            const colors = ['red', 'blue', 'yellow', 'purple', 'cyan', 'orange', 'pink', 'white'];
+            // Define possible colors for letters and lights
+            const colors = [
+                '#FF5252', // red
+                '#4CAF50', // green
+                '#448AFF', // blue
+                '#FFEB3B', // yellow
+                '#9C27B0', // purple
+                '#00BCD4', // cyan
+                '#FF9800', // orange
+                '#E91E63', // pink
+                '#FFFFFF'  // white
+            ];
+            
+            // Create colored letters for the title
+            for (let i = 0; i < titleText.length; i++) {
+                const letter = document.createElement('span');
+                letter.className = 'letter';
+                letter.textContent = titleText[i];
+                
+                // Random color for each letter
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                letter.style.color = color;
+                
+                title.appendChild(letter);
+            }
             
             // Create 75 lights distributed across the whole screen
             for (let i = 0; i < 75; i++) {
