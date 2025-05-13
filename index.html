@@ -4,86 +4,75 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Music For Trees</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;700&display=swap">
     <style>
         body {
             background-color: #121212;
             color: #e0e0e0;
-            font-family: 'Courier New', monospace;
+            font-family: 'EB Garamond', 'Garamond', serif;
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
             height: 100vh;
             margin: 0;
             padding: 0;
             text-align: center;
-        }
-        .ascii-tree {
-            white-space: pre;
-            font-size: 16px;
-            line-height: 1.2;
-            color: #4CAF50;
-            margin-bottom: 20px;
+            overflow: hidden;
             position: relative;
         }
         h1 {
-            font-size: 2.5rem;
-            margin-top: 20px;
+            font-size: 3.5rem;
+            margin: 0;
+            z-index: 10;
+            letter-spacing: 2px;
         }
         .light {
             position: absolute;
-            width: 8px;
-            height: 8px;
+            width: 6px;
+            height: 6px;
             border-radius: 50%;
             background-color: red;
             opacity: 0;
-            transition: opacity 1s ease-in-out;
-            box-shadow: 0 0 5px 2px currentColor;
+            transition: opacity 1.5s ease-in-out;
+            box-shadow: 0 0 8px 3px currentColor;
         }
     </style>
 </head>
-<body>
-    <div class="ascii-tree" id="tree">
-          *
-         ***
-        *****
-       *******
-      *********
-     ***********
-    *************
-         |||
-         |||
-         |||
-    </div>
+<body id="starfield">
     <h1>Music For Trees</h1>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const tree = document.getElementById('tree');
-            const treeRect = tree.getBoundingClientRect();
+            const starfield = document.getElementById('starfield');
+            const width = window.innerWidth;
+            const height = window.innerHeight;
             
             // Define possible light colors
             const colors = ['red', 'blue', 'yellow', 'purple', 'cyan', 'orange', 'pink', 'white'];
             
-            // Create 25 lights
-            for (let i = 0; i < 25; i++) {
+            // Create 100 lights distributed across the whole screen
+            for (let i = 0; i < 100; i++) {
                 const light = document.createElement('div');
                 light.className = 'light';
                 
-                // Random position within the tree area (avoiding the trunk)
-                const x = Math.random() * (treeRect.width * 0.8) + (treeRect.width * 0.1);
-                // More lights in the middle and top, fewer at the bottom
-                const y = Math.random() * Math.random() * (treeRect.height * 0.7);
+                // Random position across the entire screen
+                const x = Math.random() * width;
+                const y = Math.random() * height;
                 
                 // Random color
                 const color = colors[Math.floor(Math.random() * colors.length)];
+                
+                // Random size (3px to 8px)
+                const size = 3 + Math.random() * 5;
                 
                 light.style.left = x + 'px';
                 light.style.top = y + 'px';
                 light.style.backgroundColor = color;
                 light.style.color = color;
+                light.style.width = size + 'px';
+                light.style.height = size + 'px';
                 
-                tree.appendChild(light);
+                starfield.appendChild(light);
             }
             
             // Function to animate lights
@@ -92,8 +81,8 @@
                 
                 // Randomly turn lights on and off
                 lights.forEach(light => {
-                    // 30% chance of changing state on each cycle
-                    if (Math.random() > 0.7) {
+                    // 15% chance of changing state on each cycle
+                    if (Math.random() > 0.85) {
                         const brightness = Math.random() * 0.7 + 0.3; // Random brightness
                         light.style.opacity = brightness;
                     } else {
@@ -101,12 +90,26 @@
                     }
                 });
                 
-                // Schedule next animation (between 800ms and 1800ms)
-                setTimeout(animateLights, 800 + Math.random() * 1000);
+                // Schedule next animation (between 500ms and 1500ms)
+                setTimeout(animateLights, 500 + Math.random() * 1000);
             }
             
             // Start animation
             animateLights();
+            
+            // Update lights positions on window resize
+            window.addEventListener('resize', function() {
+                const width = window.innerWidth;
+                const height = window.innerHeight;
+                const lights = document.querySelectorAll('.light');
+                
+                lights.forEach(light => {
+                    const x = Math.random() * width;
+                    const y = Math.random() * height;
+                    light.style.left = x + 'px';
+                    light.style.top = y + 'px';
+                });
+            });
         });
     </script>
 </body>
