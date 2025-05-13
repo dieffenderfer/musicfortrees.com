@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Music For Trees</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;700&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400&display=swap">
     <style>
         body {
             background-color: #121212;
@@ -25,16 +25,17 @@
             margin: 0;
             z-index: 10;
             letter-spacing: 2px;
+            font-weight: normal;
         }
         .light {
             position: absolute;
-            width: 6px;
-            height: 6px;
+            width: 8px;
+            height: 8px;
             border-radius: 50%;
             background-color: red;
             opacity: 0;
-            transition: opacity 1.5s ease-in-out;
-            box-shadow: 0 0 8px 3px currentColor;
+            transition: opacity 1s ease-in-out;
+            box-shadow: 0 0 5px 2px currentColor;
         }
     </style>
 </head>
@@ -50,8 +51,8 @@
             // Define possible light colors
             const colors = ['red', 'blue', 'yellow', 'purple', 'cyan', 'orange', 'pink', 'white'];
             
-            // Create 100 lights distributed across the whole screen
-            for (let i = 0; i < 100; i++) {
+            // Create 75 lights distributed across the whole screen
+            for (let i = 0; i < 75; i++) {
                 const light = document.createElement('div');
                 light.className = 'light';
                 
@@ -62,15 +63,10 @@
                 // Random color
                 const color = colors[Math.floor(Math.random() * colors.length)];
                 
-                // Random size (3px to 8px)
-                const size = 3 + Math.random() * 5;
-                
                 light.style.left = x + 'px';
                 light.style.top = y + 'px';
                 light.style.backgroundColor = color;
                 light.style.color = color;
-                light.style.width = size + 'px';
-                light.style.height = size + 'px';
                 
                 starfield.appendChild(light);
             }
@@ -81,8 +77,8 @@
                 
                 // Randomly turn lights on and off
                 lights.forEach(light => {
-                    // 15% chance of changing state on each cycle
-                    if (Math.random() > 0.85) {
+                    // 30% chance of changing state on each cycle
+                    if (Math.random() > 0.7) {
                         const brightness = Math.random() * 0.7 + 0.3; // Random brightness
                         light.style.opacity = brightness;
                     } else {
@@ -90,8 +86,8 @@
                     }
                 });
                 
-                // Schedule next animation (between 500ms and 1500ms)
-                setTimeout(animateLights, 500 + Math.random() * 1000);
+                // Schedule next animation (between 1000ms and 2000ms)
+                setTimeout(animateLights, 1000 + Math.random() * 1000);
             }
             
             // Start animation
