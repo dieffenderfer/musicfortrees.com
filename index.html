@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Music For Trees</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400&display=swap">
+    <!-- Load a variety of web fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400&family=Roboto:wght@400&family=Lora&family=Montserrat&family=Open+Sans&family=Playfair+Display&family=Merriweather&family=Raleway&family=Ubuntu&family=Source+Sans+Pro&display=swap">
     <style>
         body {
             background-color: #121212;
             color: #e0e0e0;
-            font-family: 'EB Garamond', 'Garamond', serif;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -29,7 +29,7 @@
         }
         .letter {
             display: inline-block;
-            /* Remove transition for instant color change */
+            /* No transition for instant change */
         }
         .space {
             display: inline-block;
@@ -56,7 +56,7 @@
             const title = document.getElementById('title');
             const width = window.innerWidth;
             const height = window.innerHeight;
-            const titleWords = ["Music", "For", "Trees"];
+            const titleWords = ["music", "for", "trees"]; // All lowercase
             
             // Define possible colors for letters and lights
             const colors = [
@@ -71,9 +71,28 @@
                 '#FFFFFF'  // white
             ];
             
+            // Define list of fonts to use
+            const fonts = [
+                "'EB Garamond', serif",
+                "'Roboto', sans-serif",
+                "'Lora', serif",
+                "'Montserrat', sans-serif",
+                "'Open Sans', sans-serif",
+                "'Playfair Display', serif",
+                "'Merriweather', serif",
+                "'Raleway', sans-serif",
+                "'Ubuntu', sans-serif",
+                "'Source Sans Pro', sans-serif"
+            ];
+            
             // Function to get a random color
             function getRandomColor() {
                 return colors[Math.floor(Math.random() * colors.length)];
+            }
+            
+            // Function to get a random font
+            function getRandomFont() {
+                return fonts[Math.floor(Math.random() * fonts.length)];
             }
             
             // Function to get a random time interval between min and max seconds
@@ -89,19 +108,21 @@
                     letter.className = 'letter';
                     letter.textContent = word[i];
                     
-                    // Random color for each letter
+                    // Random color and font for each letter
                     letter.style.color = getRandomColor();
+                    letter.style.fontFamily = getRandomFont();
                     
                     // Set up individual timer for this letter
-                    function changeLetterColor() {
+                    function changeLetterStyle() {
                         letter.style.color = getRandomColor();
+                        letter.style.fontFamily = getRandomFont();
                         
-                        // Schedule next color change with a random interval
-                        setTimeout(changeLetterColor, getRandomInterval(1, 5));
+                        // Schedule next style change with a random interval
+                        setTimeout(changeLetterStyle, getRandomInterval(1, 5));
                     }
                     
-                    // Start the color change timer with a random initial delay
-                    setTimeout(changeLetterColor, getRandomInterval(0, 3));
+                    // Start the style change timer with a random initial delay
+                    setTimeout(changeLetterStyle, getRandomInterval(0, 3));
                     
                     title.appendChild(letter);
                 }
