@@ -38,6 +38,7 @@
             background-color: red;
             opacity: 0;
             transition: opacity 1s ease-in-out;
+            box-shadow: 0 0 5px 2px currentColor;
         }
     </style>
 </head>
@@ -64,14 +65,15 @@
             // Define possible light colors
             const colors = ['red', 'blue', 'yellow', 'purple', 'cyan', 'orange', 'pink', 'white'];
             
-            // Create 20 lights
-            for (let i = 0; i < 20; i++) {
+            // Create 25 lights
+            for (let i = 0; i < 25; i++) {
                 const light = document.createElement('div');
                 light.className = 'light';
                 
                 // Random position within the tree area (avoiding the trunk)
                 const x = Math.random() * (treeRect.width * 0.8) + (treeRect.width * 0.1);
-                const y = Math.random() * (treeRect.height * 0.7);
+                // More lights in the middle and top, fewer at the bottom
+                const y = Math.random() * Math.random() * (treeRect.height * 0.7);
                 
                 // Random color
                 const color = colors[Math.floor(Math.random() * colors.length)];
@@ -79,6 +81,7 @@
                 light.style.left = x + 'px';
                 light.style.top = y + 'px';
                 light.style.backgroundColor = color;
+                light.style.color = color;
                 
                 tree.appendChild(light);
             }
@@ -89,15 +92,17 @@
                 
                 // Randomly turn lights on and off
                 lights.forEach(light => {
+                    // 30% chance of changing state on each cycle
                     if (Math.random() > 0.7) {
-                        light.style.opacity = Math.random() * 0.7 + 0.3; // Random brightness
+                        const brightness = Math.random() * 0.7 + 0.3; // Random brightness
+                        light.style.opacity = brightness;
                     } else {
                         light.style.opacity = 0;
                     }
                 });
                 
-                // Schedule next animation
-                setTimeout(animateLights, 1000 + Math.random() * 1000);
+                // Schedule next animation (between 800ms and 1800ms)
+                setTimeout(animateLights, 800 + Math.random() * 1000);
             }
             
             // Start animation
